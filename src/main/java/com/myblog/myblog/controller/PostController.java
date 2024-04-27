@@ -26,6 +26,11 @@ public class PostController {
         PostDto dtos = postService.findPostById(id);
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
-
+    //http://localhost:8080/api/posts/particular?id=1
+    @GetMapping("/particular") //In this we are find id with throwing exceptions
+    public ResponseEntity<PostDto> getPostById(@RequestParam long id){
+       PostDto dto =  postService.getPostById(id);
+       return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
 
 }

@@ -8,4 +8,5 @@ public interface PostService {
 
     PostDto findPostById(long id);
 
+    PostDto getPostById(long id);
 }

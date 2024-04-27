@@ -44,4 +44,16 @@ public class PostServiceImpl implements PostService {
         return dto;
     }
 
+    @Override
+    public PostDto getPostById(long id) {//In this we are find id with throwing exceptions
+        Post post = postRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Post not fond with id: " + id)
+        );
+        PostDto dto = new PostDto();
+        dto.setId(post.getId());
+        dto.setTitle(post.getTitle());
+        dto.setDescription(post.getDescription());
+        dto.setContent(post.getContent());
+        return dto;
+    }
 }
