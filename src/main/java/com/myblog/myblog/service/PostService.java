@@ -13,4 +13,6 @@ public interface PostService {
     PostDto getPostById(long id);//In this we are find id with throwing exceptions and handling exception
 
     List<PostDto> getAllPosts(); ////Read All The Data From DataBase
+
+    List<PostDto> getAllPostsAsPageable(int pageNo, int pageSize, String sortBy, String sortDir);//Read All The Data From DataBase By Pageable Concept
 }

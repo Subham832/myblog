@@ -5,6 +5,10 @@ import com.myblog.myblog.exception.ResourceNotFoundException;
 import com.myblog.myblog.payload.PostDto;
 import com.myblog.myblog.repository.PostRepository;
 import com.myblog.myblog.service.PostService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -67,6 +71,23 @@ public class PostServiceImpl implements PostService {
         return dtos;
     }
     PostDto mapToDto(Post post){
+        PostDto dto = new PostDto();
+        dto.setId(post.getId());
+        dto.setTitle(post.getTitle());
+        dto.setDescription(post.getDescription());
+        dto.setContent(post.getContent());
+        return dto;
+    }
+    @Override
+    public List<PostDto> getAllPostsAsPageable(int pageNo, int pageSize, String sortBy, String sortDir) { //Read All The Data From DataBase By Pageable Concept
+        Sort sort = (sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();//Ternary Operator Concept
+        Pageable pageable = PageRequest.of(pageNo,pageSize, sort);
+        Page<Post> pagePost = postRepository.findAll(pageable);
+        List<Post> posts = pagePost.getContent();
+        List<PostDto> dtos = posts.stream().map(post -> mapToDto(post)).collect(Collectors.toList());
+        return dtos;
+    }
+    PostDto mapToDto1(Post post){
         PostDto dto = new PostDto();
         dto.setId(post.getId());
         dto.setTitle(post.getTitle());

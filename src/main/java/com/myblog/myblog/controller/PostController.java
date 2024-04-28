@@ -40,5 +40,16 @@ public class PostController {
         List<PostDto> postDtos = postService.getAllPosts();
         return postDtos;
     }
+    //http://localhost:8080/api/posts/pageableConcept?pageNo=0&pageSize=3&sortBy=title&sortDir=desc
+    @GetMapping("/pageableConcept") //Read All The Data From DataBase By Pageable Concept
+    public List<PostDto> getAllPostsAsPageable(
+            @RequestParam(name = "pageNo", required = false, defaultValue = "0") int pageNo,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "3") int pageSize,
+            @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
+            @RequestParam(name = "sortDir", required = false, defaultValue = "id") String sortDir
+    ){
+        List<PostDto> postDtos = postService.getAllPostsAsPageable(pageNo, pageSize,sortBy,sortDir);
+        return postDtos;
+    }
 
 }
