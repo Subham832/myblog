@@ -7,6 +7,9 @@ import com.myblog.myblog.repository.PostRepository;
 import com.myblog.myblog.service.PostService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PostServiceImpl implements PostService {
 
@@ -16,7 +19,7 @@ public class PostServiceImpl implements PostService {
         this.postRepository = postRepository;
     }
 
-    @Override
+    @Override//To Insert The Data To The DataBase
     public PostDto createPost(PostDto postDto) { //we can't send and save the data by Dto we can save by Post. So, we have to send Dto data to Post then only the data will save to the database,
         Post post = new Post(); //Inserting the data
         post.setId(postDto.getId());
@@ -45,7 +48,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto getPostById(long id) {//In this we are find id with throwing exceptions
+    public PostDto getPostById(long id) {//In this we are find id with throwing exceptions and handling exception
         Post post = postRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Post not fond with id: " + id)
         );
@@ -56,4 +59,20 @@ public class PostServiceImpl implements PostService {
         dto.setContent(post.getContent());
         return dto;
     }
+
+    @Override
+    public List<PostDto> getAllPosts() { //Read All The Data From DataBase
+        List<Post> posts = postRepository.findAll();
+        List<PostDto> dtos = posts.stream().map(post -> mapToDto(post)).collect(Collectors.toList());
+        return dtos;
+    }
+    PostDto mapToDto(Post post){
+        PostDto dto = new PostDto();
+        dto.setId(post.getId());
+        dto.setTitle(post.getTitle());
+        dto.setDescription(post.getDescription());
+        dto.setContent(post.getContent());
+        return dto;
+    }
+
 }
