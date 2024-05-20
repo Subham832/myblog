@@ -15,4 +15,5 @@ public interface PostService {
     List<PostDto> getAllPosts(); ////Read All The Data From DataBase
 
     List<PostDto> getAllPostsAsPageable(int pageNo, int pageSize, String sortBy, String sortDir);//Read All The Data From DataBase By Pageable Concept
+
 }
